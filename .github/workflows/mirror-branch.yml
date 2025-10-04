@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GITLAB_REPO: https://$GLAB_USERNAME:$GLAB_PAT@gitlab.com:WhiteOrangeSoftware/homehive_flutter.git
-      GITHUB_REPO: https://$GH_TOKEN@github.com:qcabrol/homehive_flutter.git
+      GITLAB_REPO: https://$GLAB_USERNAME:$GLAB_PAT@gitlab.com/WhiteOrangeSoftware/homehive_flutter.git
+      GITHUB_REPO: https://$GH_TOKEN@github.com/qcabrol/homehive_flutter.git
       BRANCH: dev_by_tg
 
     steps:
