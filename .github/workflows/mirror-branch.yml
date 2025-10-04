@@ -1,28 +1,24 @@
-name: Mirror Branch from GitLab
-
-on:
-  schedule:
-    - cron: '0 5 * * 1'  # Every Monday at 05:00 UTC
-  workflow_dispatch:     # Allow manual triggering too
-
 jobs:
   mirror:
     runs-on: ubuntu-latest
 
     env:
-      GITLAB_REPO: https://$GLAB_USERNAME:$GLAB_PAT@gitlab.com/WhiteOrangeSoftware/homehive_flutter.git
-      GITHUB_REPO: https://$GH_TOKEN@github.com/qcabrol/homehive_flutter.git
       BRANCH: dev_by_tg
 
     steps:
-      - name: Checkout GitLab repo
+      - name: Set up Git
         run: |
+          git config --global user.name "Mirror Bot"
+          git config --global user.email "mirror@bot.com"
+
+      - name: Clone GitLab repo
+        run: |
+          GITLAB_REPO="https://${{ secrets.GLAB_USERNAME }}:${{ secrets.GLAB_PAT }}@gitlab.com/WhiteOrangeSoftware/homehive_flutter.git"
           git clone --single-branch --branch "$BRANCH" "$GITLAB_REPO" repo
           cd repo
-          git remote add github "$GITHUB_REPO"
+          git remote add github "https://${{ secrets.GH_TOKEN }}@github.com/qcabrol/homehive_flutter.git"
 
       - name: Force push to GitHub
         run: |
           cd repo
-          git push github "$BRANCH":"$BRANCH" --force
-
+          git push github "$BRANCH:$BRANCH" --force
